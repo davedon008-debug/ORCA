@@ -6,6 +6,7 @@ import { Heart, Trash2, ShoppingCart } from 'lucide-react';
 import { CartContext } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { getBackendUrl } from '../../utils/axiosInstance';
 
 export default function Wishlist() {
   const { addToCart } = useContext(CartContext);
@@ -46,7 +47,7 @@ export default function Wishlist() {
               <div key={itemId} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-shadow group shrink-0">
                 <div className="relative h-64 overflow-hidden bg-gray-100">
                   <img 
-                    src={item.image.startsWith('/') ? `http://localhost:5001${item.image}` : item.image} 
+                    src={item.image.startsWith('/') ? `${getBackendUrl()}${item.image}` : item.image} 
                     alt={item.name} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                   />

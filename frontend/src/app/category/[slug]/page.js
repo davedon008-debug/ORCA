@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Star, Filter, ArrowLeft } from 'lucide-react';
-import api from '../../../utils/axiosInstance';
+import api, { getBackendUrl } from '../../../utils/axiosInstance';
 
 export default function CategoryPage() {
   const [products, setProducts] = useState([]);
@@ -54,7 +54,7 @@ export default function CategoryPage() {
               <div className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
                 <div className="relative h-64 bg-gray-100 overflow-hidden">
                   <img 
-                    src={product.images && product.images[0] ? (product.images[0].startsWith('/') ? `http://localhost:5001${product.images[0]}` : product.images[0]) : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80"} 
+                    src={product.images && product.images[0] ? (product.images[0].startsWith('/') ? `${getBackendUrl()}${product.images[0]}` : product.images[0]) : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80"} 
                     alt={product.name}
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />

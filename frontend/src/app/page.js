@@ -5,7 +5,7 @@ import { ArrowRight, Truck, ShieldCheck, CreditCard, Clock, Star, Heart, Shoppin
 import { motion } from 'framer-motion';
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation';
-import api from '../utils/axiosInstance';
+import api, { getBackendUrl } from '../utils/axiosInstance';
 import { CartContext } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -26,7 +26,7 @@ export default function Home() {
       desc: t('slideDesc1'),
     },
     {
-      image: 'https://images.unsplash.com/photo-1556910103-1c02745a872f?w=1920&q=80',
+      image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=1920&q=80',
       title: t('slideTitle2'),
       desc: t('slideDesc2'),
     },
@@ -186,7 +186,7 @@ export default function Home() {
             </Link>
             
             <Link href="/shop?category=Kitchen" className="group relative h-80 rounded-2xl overflow-hidden cursor-pointer shadow-sm">
-              <img src="https://images.unsplash.com/photo-1556910103-1c02745a872f?w=800&q=80" alt="Kitchen" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80" alt="Kitchen" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-6 w-full">
                 <h3 className="text-2xl font-bold text-white mb-1">{t('kitchen')}</h3>
@@ -235,7 +235,7 @@ export default function Home() {
                 const fallbackImg = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80";
                 let productImg = product.images?.[0] && product.images[0] !== '/images/sample.jpg' ? product.images[0] : fallbackImg;
                 if (productImg.startsWith('/')) {
-                  productImg = `http://localhost:5001${productImg}`;
+                  productImg = `${getBackendUrl()}${productImg}`;
                 }
                 return (
                   <div key={product._id} className="group flex flex-col bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300">
@@ -296,7 +296,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="relative z-10 hidden md:block flex-1 h-full min-h-[400px]">
-               <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=80" alt="Promo" className="absolute right-0 bottom-0 h-[120%] object-cover rounded-tl-[100px] shadow-2xl border-l-[10px] border-t-[10px] border-white/10" />
+               <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=80" alt="Promo" className="absolute left-0 right-0 bottom-0 w-full h-[120%] object-cover rounded-tl-[100px] shadow-2xl border-l-[10px] border-t-[10px] border-white/10" />
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Star, Filter, ShoppingBag, Heart } from 'lucide-react';
-import api from '../../utils/axiosInstance';
+import api, { getBackendUrl } from '../../utils/axiosInstance';
 import { CartContext } from '../../context/CartContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useWishlist } from '../../context/WishlistContext';
@@ -135,7 +135,7 @@ export default function Shop() {
                           const img = product.images?.[0] && product.images[0] !== '/images/sample.jpg' 
                             ? product.images[0] 
                             : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80";
-                          return img.startsWith('/') ? `http://localhost:5001${img}` : img;
+                          return img.startsWith('/') ? `${getBackendUrl()}${img}` : img;
                         })()
                       }
                       alt={product.name}

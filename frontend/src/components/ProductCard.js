@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useCart } from "./CartProvider";
+import { getBackendUrl } from "../utils/axiosInstance";
 import "./ProductCard.css";
 
 export default function ProductCard({ product, index }) {
@@ -19,7 +20,7 @@ export default function ProductCard({ product, index }) {
       <div className="product-image-container">
         {product.image ? (
           <img 
-            src={product.image.startsWith('/') ? `http://localhost:5001${product.image}` : product.image} 
+            src={product.image.startsWith('/') ? `${getBackendUrl()}${product.image}` : product.image} 
             alt={product.name} 
             className="product-image" 
             loading="lazy" 

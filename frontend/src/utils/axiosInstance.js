@@ -1,7 +1,14 @@
 import axios from "axios";
 
+export const getBackendUrl = () => {
+  if (typeof window !== "undefined") {
+    return `http://${window.location.hostname}:5001`;
+  }
+  return "http://localhost:5001";
+};
+
 const api = axios.create({
-  baseURL: "http://localhost:5001",
+  baseURL: getBackendUrl(),
   headers: {
     "Content-Type": "application/json",
   },

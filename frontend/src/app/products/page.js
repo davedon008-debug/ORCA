@@ -9,7 +9,7 @@ import Footer from "../../components/Footer";
 import { Star, ShoppingBag } from "lucide-react";
 import { useContext } from "react";
 import { CartContext } from "../../context/CartContext";
-import api from "../../utils/axiosInstance";
+import api, { getBackendUrl } from "../../utils/axiosInstance";
 import "./products.css";
 
 export default function ProductsPage() {
@@ -72,7 +72,7 @@ export default function ProductsPage() {
             <div className="all-products-grid">
               {products.map((product, index) => {
                 const img = product.images?.[0] && product.images[0] !== '/images/sample.jpg'
-                  ? (product.images[0].startsWith('/') ? `http://localhost:5001${product.images[0]}` : product.images[0])
+                  ? (product.images[0].startsWith('/') ? `${getBackendUrl()}${product.images[0]}` : product.images[0])
                   : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80";
 
                 return (

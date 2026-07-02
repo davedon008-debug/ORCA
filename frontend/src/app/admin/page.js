@@ -5,7 +5,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { PackageSearch, Users, ListOrdered, BarChart3, Plus, Trash2, Edit, Bell, X, CheckCircle, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
-import api from '../../utils/axiosInstance';
+import api, { getBackendUrl } from '../../utils/axiosInstance';
 import { io } from 'socket.io-client';
 
 export default function AdminDashboard() {
@@ -64,7 +64,7 @@ export default function AdminDashboard() {
   // Connect to socket and listen for new orders
   useEffect(() => {
     if (!user?.isAdmin) return;
-    const socket = io('http://localhost:5001');
+    const socket = io(getBackendUrl());
 
     socket.on('new_order', (order) => {
       setNotifications((prev) => [
@@ -358,6 +358,34 @@ export default function AdminDashboard() {
             </div>
           </div>
 
+          {/* Mobile Tab Switcher */}
+          <div className="flex md:hidden overflow-x-auto pb-4 mb-6 gap-2 scrollbar-none">
+            <button 
+              onClick={() => setActiveTab('overview')} 
+              className={`flex items-center px-4 py-2.5 rounded-full text-sm font-semibold transition-all flex-shrink-0 ${activeTab === 'overview' ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200'}`}
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => setActiveTab('products')} 
+              className={`flex items-center px-4 py-2.5 rounded-full text-sm font-semibold transition-all flex-shrink-0 ${activeTab === 'products' ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200'}`}
+            >
+              Products
+            </button>
+            <button 
+              onClick={() => setActiveTab('customers')} 
+              className={`flex items-center px-4 py-2.5 rounded-full text-sm font-semibold transition-all flex-shrink-0 ${activeTab === 'customers' ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200'}`}
+            >
+              Customers
+            </button>
+            <button 
+              onClick={() => setActiveTab('orders')} 
+              className={`flex items-center px-4 py-2.5 rounded-full text-sm font-semibold transition-all flex-shrink-0 ${activeTab === 'orders' ? 'bg-blue-600 text-white shadow-sm' : 'bg-white text-gray-600 border border-gray-200'}`}
+            >
+              Orders
+            </button>
+          </div>
+
           {isFetching ? (
             <div className="flex justify-center items-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div></div>
           ) : (
@@ -533,21 +561,21 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Product Name</label>
-                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={name} onChange={(e) => setName(e.target.value)} required placeholder="e.g. Modern Sofa" />
+                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={name} onChange={(e) => setName(e.target.value)} required placeholder="e.g. Modern Sofa" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Price (USD)</label>
-                    <input type="number" step="0.01" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={price} onChange={(e) => setPrice(e.target.value)} required placeholder="e.g. 299.99" />
+                    <input type="number" step="0.01" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={price} onChange={(e) => setPrice(e.target.value)} required placeholder="e.g. 299.99" />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Brand</label>
-                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={brand} onChange={(e) => setBrand(e.target.value)} required placeholder="e.g. Orca Design" />
+                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={brand} onChange={(e) => setBrand(e.target.value)} required placeholder="e.g. Orca Design" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                    <select className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    <select className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={category} onChange={(e) => setCategory(e.target.value)} required>
                       <option value="Living Room">Living Room</option>
                       <option value="Kitchen">Kitchen Appliances</option>
                       <option value="Bedroom">Bedroom</option>
@@ -558,11 +586,11 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Stock Count</label>
-                    <input type="number" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={countInStock} onChange={(e) => setCountInStock(e.target.value)} required />
+                    <input type="number" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={countInStock} onChange={(e) => setCountInStock(e.target.value)} required />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Color</label>
-                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={color} onChange={(e) => setColor(e.target.value)} placeholder="e.g. Gray" />
+                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={color} onChange={(e) => setColor(e.target.value)} placeholder="e.g. Gray" />
                   </div>
                 </div>
                  <div>
@@ -570,7 +598,7 @@ export default function AdminDashboard() {
                   <div className="space-y-3">
                     <input 
                       type="text" 
-                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm" 
+                      className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm" 
                       value={image} 
                       onChange={(e) => setImage(e.target.value)} 
                       required 
@@ -590,7 +618,7 @@ export default function AdminDashboard() {
                       {image && (
                         <div className="w-12 h-12 rounded-lg border border-gray-200 overflow-hidden bg-gray-100 flex items-center justify-center">
                           <img 
-                            src={image.startsWith('/') ? `http://localhost:5001${image}` : image} 
+                            src={image.startsWith('/') ? `${getBackendUrl()}${image}` : image} 
                             alt="Preview" 
                             className="w-full h-full object-cover"
                             onError={(e) => { e.target.src = 'https://placehold.co/100?text=Error'; }}
@@ -602,7 +630,7 @@ export default function AdminDashboard() {
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                  <textarea rows="4" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={description} onChange={(e) => setDescription(e.target.value)} required placeholder="Describe this product..."></textarea>
+                  <textarea rows="4" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={description} onChange={(e) => setDescription(e.target.value)} required placeholder="Describe this product..."></textarea>
                 </div>
                 <div className="flex justify-end space-x-4">
                   <button type="button" onClick={async () => {

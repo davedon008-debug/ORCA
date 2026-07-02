@@ -6,7 +6,7 @@ import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { Star, ShoppingBag } from "lucide-react";
 import { CartContext } from "../context/CartContext";
-import api from "../utils/axiosInstance";
+import api, { getBackendUrl } from "../utils/axiosInstance";
 import "./FeaturedProducts.css";
 
 export default function FeaturedProducts() {
@@ -70,7 +70,7 @@ export default function FeaturedProducts() {
         <div className="products-grid">
           {products.map((product, index) => {
             const img = product.images?.[0] && product.images[0] !== '/images/sample.jpg'
-              ? (product.images[0].startsWith('/') ? `http://localhost:5001${product.images[0]}` : product.images[0])
+              ? (product.images[0].startsWith('/') ? `${getBackendUrl()}${product.images[0]}` : product.images[0])
               : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80";
 
             return (

@@ -4,6 +4,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { io } from 'socket.io-client';
 import { AuthContext } from '../../context/AuthContext';
 import { Send, User as UserIcon } from 'lucide-react';
+import { getBackendUrl } from '../../utils/axiosInstance';
 
 export default function SupportChat() {
   const { user } = useContext(AuthContext);
@@ -13,7 +14,7 @@ export default function SupportChat() {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:5001');
+    const newSocket = io(getBackendUrl());
     setSocket(newSocket);
 
     newSocket.on('receive_message', (data) => {

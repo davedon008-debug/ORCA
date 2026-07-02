@@ -165,19 +165,19 @@ export default function Dashboard() {
                 <form onSubmit={submitProfileUpdate} className="space-y-5 max-w-xl">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                    <input type="text" className="w-full rounded-xl border border-gray-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={name} onChange={(e) => setName(e.target.value)} />
+                    <input type="text" className="w-full rounded-xl border border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={name} onChange={(e) => setName(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input type="email" className="w-full rounded-xl border border-gray-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input type="email" className="w-full rounded-xl border border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">New Password (leave blank to keep current)</label>
-                    <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-gray-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={password} onChange={(e) => setPassword(e.target.value)} />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Shipping Address</label>
-                    <input type="text" placeholder="123 Main St" className="w-full rounded-xl border border-gray-300 py-3 px-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={address} onChange={(e) => setAddress(e.target.value)} />
+                    <input type="text" placeholder="123 Main St" className="w-full rounded-xl border border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={address} onChange={(e) => setAddress(e.target.value)} />
                   </div>
                   
                   <button type="submit" className="bg-gray-900 text-white px-8 py-3.5 rounded-xl font-bold hover:bg-black transition-colors w-full shadow-sm mt-4">

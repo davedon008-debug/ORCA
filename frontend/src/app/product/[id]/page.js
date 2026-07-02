@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams } from "next/navigation";
 import { Star, Truck, ShieldCheck, Heart, ShoppingBag, Minus, Plus, ChevronRight, Send } from "lucide-react";
 import Link from 'next/link';
-import api from "../../../utils/axiosInstance";
+import api, { getBackendUrl } from "../../../utils/axiosInstance";
 import { CartContext } from "../../../context/CartContext";
 import { AuthContext } from "../../../context/AuthContext";
 import { useWishlist } from "../../../context/WishlistContext";
@@ -120,7 +120,7 @@ export default function ProductDetails() {
                     const img = product.images?.[activeImage] && product.images[activeImage] !== '/images/sample.jpg' 
                       ? product.images[activeImage] 
                       : "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80";
-                    return img.startsWith('/') ? `http://localhost:5001${img}` : img;
+                    return img.startsWith('/') ? `${getBackendUrl()}${img}` : img;
                   })()
                 } 
                 alt={product.name} 
@@ -147,7 +147,7 @@ export default function ProductDetails() {
                     className={`flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden border-2 transition-all ${activeImage === idx ? 'border-blue-600 shadow-md' : 'border-transparent opacity-70 hover:opacity-100'}`}
                   >
                     <img 
-                      src={img.startsWith('/') ? `http://localhost:5001${img}` : img} 
+                      src={img.startsWith('/') ? `${getBackendUrl()}${img}` : img} 
                       alt={`Thumb ${idx}`} 
                       className="w-full h-full object-cover" 
                     />

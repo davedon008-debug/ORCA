@@ -14,6 +14,8 @@ export default function Navbar() {
   const { lang, changeLanguage, t, currentLang, LANGUAGES } = useLanguage();
   const router = useRouter();
   const [keyword, setKeyword] = useState('');
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isUserOpen, setIsUserOpen] = useState(false);
 
   const cartItemsCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
@@ -44,7 +46,7 @@ export default function Navbar() {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 placeholder={t("searchPlaceholder")}
-                className="w-full bg-gray-100 rounded-full py-2 pl-4 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all border border-transparent focus:bg-white"
+                className="w-full bg-gray-100 rounded-full py-2 pl-4 pr-10 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all border border-transparent focus:bg-white"
               />
               <button type="submit" className="absolute right-0 top-0 mt-2 mr-3 text-gray-500 hover:text-blue-500">
                 <Search size={20} />
@@ -54,18 +56,30 @@ export default function Navbar() {
 
           <div className="flex items-center space-x-6">
             {/* Language Selector Dropdown */}
-            <div className="relative group cursor-pointer flex items-center space-x-2">
+            <div 
+              onClick={() => setIsLangOpen(!isLangOpen)}
+              onMouseLeave={() => setIsLangOpen(false)}
+              className="relative group cursor-pointer flex items-center space-x-2"
+            >
               <div className="flex items-center text-gray-600 hover:text-blue-600 transition-colors select-none">
                 <Globe size={20} className="mr-1" />
                 <span className="hidden md:inline text-sm font-medium">{currentLang.flag} {currentLang.label}</span>
               </div>
-              <div className="absolute right-0 top-full pt-1 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-0 z-50">
+              <div className={`absolute right-0 top-full pt-1 w-40 transition-opacity duration-150 z-50 ${
+                isLangOpen 
+                  ? 'opacity-100 visible' 
+                  : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
+              }`}>
                 <div className="bg-white border border-gray-200 divide-y divide-gray-100 rounded-xl shadow-xl overflow-hidden">
                   <div className="py-1">
                     {LANGUAGES.map((l) => (
                       <button
                         key={l.code}
-                        onClick={() => changeLanguage(l.code)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          changeLanguage(l.code);
+                          setIsLangOpen(false);
+                        }}
                         className={`flex items-center w-full px-4 py-2 text-sm text-left transition-colors ${
                           lang === l.code
                             ? 'bg-blue-50 text-blue-600 font-semibold'
@@ -92,17 +106,20 @@ export default function Navbar() {
             
             {user ? (
               /* Logged-in: show name + instant dropdown */
-              <div className="relative group cursor-pointer flex items-center space-x-2">
+              <div 
+                onClick={() => setIsUserOpen(!isUserOpen)}
+                onMouseLeave={() => setIsUserOpen(false)}
+                className="relative group cursor-pointer flex items-center space-x-2"
+              >
                 <div className="flex items-center text-gray-600 hover:text-blue-600 transition-colors select-none">
                   <User size={24} />
                   <span className="hidden md:block ml-1 font-medium">{user.name}</span>
                 </div>
-                {/* 
-                  Invisible bridge: pt-2 padding ensures mouse can travel
-                  from the icon down to the dropdown without losing hover.
-                  duration-0 makes it appear instantly on hover.
-                */}
-                <div className="absolute right-0 top-full pt-1 w-52 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-0 z-50">
+                <div className={`absolute right-0 top-full pt-1 w-52 transition-opacity duration-150 z-50 ${
+                  isUserOpen
+                    ? 'opacity-100 visible'
+                    : 'opacity-0 invisible md:group-hover:opacity-100 md:group-hover:visible'
+                }`}>
                   <div className="bg-white border border-gray-200 divide-y divide-gray-100 rounded-xl shadow-xl overflow-hidden">
                     <div className="py-1">
                       <Link href="/dashboard" className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
@@ -116,7 +133,11 @@ export default function Navbar() {
                     </div>
                     <div className="py-1">
                       <button
-                        onClick={logout}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          logout();
+                          setIsUserOpen(false);
+                        }}
                         className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
                       >
                         {t("logout")}

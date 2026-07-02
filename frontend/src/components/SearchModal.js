@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Search as SearchIcon } from "lucide-react";
 import { useState, useEffect } from "react";
-import api from "../utils/axiosInstance";
+import api, { getBackendUrl } from "../utils/axiosInstance";
 import "./SearchModal.css";
 
 export default function SearchModal({ isOpen, onClose }) {
@@ -54,7 +54,7 @@ export default function SearchModal({ isOpen, onClose }) {
       ? product.images[0]
       : product.image || null;
     if (!img) return null;
-    return img.startsWith('/') ? `http://localhost:5001${img}` : img;
+    return img.startsWith('/') ? `${getBackendUrl()}${img}` : img;
   };
 
   return (

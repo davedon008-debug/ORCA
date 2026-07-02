@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Trash2, ArrowRight } from 'lucide-react';
 import { CartContext } from '../../context/CartContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { getBackendUrl } from '../../utils/axiosInstance';
 
 export default function Cart() {
   const { cartItems, addToCart, removeFromCart } = useContext(CartContext);
@@ -36,7 +37,7 @@ export default function Cart() {
                           const img = item.images && item.images[0] !== '/images/sample.jpg' 
                             ? item.images[0] 
                             : 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=150&q=80';
-                          return img.startsWith('/') ? `http://localhost:5001${img}` : img;
+                          return img.startsWith('/') ? `${getBackendUrl()}${img}` : img;
                         })()
                       } 
                       alt={item.name} 

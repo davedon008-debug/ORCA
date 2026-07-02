@@ -49,7 +49,7 @@ const products = [
   },
   {
     name: 'Professional Gas Range', price: 1299.99, rating: 4.7, numReviews: 67, countInStock: 4,
-    images: ['https://images.unsplash.com/photo-1556910103-1c02745a872f?w=500&q=80'],
+    images: ['https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=500&q=80'],
     brand: 'Electra', description: '6-burner professional gas range with convection oven.'
   },
 
@@ -66,7 +66,7 @@ const products = [
   },
   {
     name: 'Wooden Nightstand Set', price: 199.99, rating: 4.4, numReviews: 112, countInStock: 20,
-    images: ['https://images.unsplash.com/photo-1532372320503-490352ef2885?w=500&q=80'],
+    images: ['https://images.unsplash.com/photo-1532372320572-cda25653a26d?w=500&q=80'],
     brand: 'Orca Sleep', description: 'Set of two matching mid-century nightstands.'
   },
   {
@@ -98,7 +98,7 @@ const products = [
   },
   {
     name: 'Minimalist Filing Cabinet', price: 129.99, rating: 4.3, numReviews: 65, countInStock: 18,
-    images: ['https://images.unsplash.com/photo-1558211583-d26f610e1ebd?w=500&q=80'],
+    images: ['https://images.unsplash.com/photo-1567225477277-c8162eb4991d?w=500&q=80'],
     brand: 'Orca Work', description: 'Clean white metal 3-drawer filing cabinet with lock.'
   },
   {
