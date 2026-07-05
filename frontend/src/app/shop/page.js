@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Star, Filter, ShoppingBag, Heart } from 'lucide-react';
@@ -9,7 +9,7 @@ import { CartContext } from '../../context/CartContext';
 import { useLanguage } from '../../context/LanguageContext';
 import { useWishlist } from '../../context/WishlistContext';
 
-export default function Shop() {
+function ShopContent() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
@@ -186,5 +186,17 @@ export default function Shop() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Shop() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    }>
+      <ShopContent />
+    </Suspense>
   );
 }

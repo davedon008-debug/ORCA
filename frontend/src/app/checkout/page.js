@@ -95,21 +95,21 @@ export default function Checkout() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t('address')}</label>
-                <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={address} onChange={(e) => setAddress(e.target.value)} required /\u003e
+                <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={address} onChange={(e) => setAddress(e.target.value)} required />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('city')}</label>
-                  <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={city} onChange={(e) => setCity(e.target.value)} required /\u003e
+                  <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={city} onChange={(e) => setCity(e.target.value)} required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{t('postalCode')}</label>
-                  <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} /\u003e
+                  <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={postalCode} onChange={(e) => setPostalCode(e.target.value)} />
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">{t('country')}</label>
-                <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={country} onChange={(e) => setCountry(e.target.value)} required /\u003e
+                <input type="text" className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 py-3 px-4 border outline-none text-gray-900" value={country} onChange={(e) => setCountry(e.target.value)} required />
               </div>
             </div>
           </div>
