@@ -52,12 +52,12 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex items-center group mb-5">
               <img
-                src="/orca_logo.png"
-                alt="ORCA Logo"
+                src="/bigdon_logo.png"
+                alt="BIGDON Logo"
                 className="h-10 w-auto object-contain mr-3 brightness-0 invert group-hover:brightness-75 transition-all"
               />
               <span className="font-black text-2xl tracking-tight text-white group-hover:text-blue-400 transition-colors">
-                ORCA
+                BIGDON
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
@@ -134,7 +134,7 @@ export default function Footer() {
             <div className="space-y-3 text-sm text-gray-400 mb-6">
               <div className="flex items-center gap-2">
                 <Mail size={14} className="text-blue-400 flex-shrink-0" />
-                <span>support@orca.store</span>
+                <span>support@bigdon.store</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone size={14} className="text-blue-400 flex-shrink-0" />
@@ -167,7 +167,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} ORCA Store. {t('copyright')}</p>
+          <p>© {new Date().getFullYear()} BIGDON Store. {t('copyright')}</p>
           <div className="flex gap-5">
             <Link href="#" className="hover:text-white transition-colors">{t('privacyPolicy')}</Link>
             <Link href="#" className="hover:text-white transition-colors">{t('termsOfService')}</Link>

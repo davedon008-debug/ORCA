@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const metadata = {
-  title: 'Orca | Modern E-commerce',
+  title: 'BIGDON | Modern E-commerce',
   description: 'Premium home appliance and furniture mall.',
 };
 

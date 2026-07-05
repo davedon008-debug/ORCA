@@ -65,7 +65,7 @@ export default function SupportChat() {
         {/* Chat Body */}
         <div className="flex-1 p-6 overflow-y-auto bg-gray-50 flex flex-col gap-4">
           <div className="text-center my-4">
-            <span className="bg-gray-200 text-gray-500 text-xs px-3 py-1 rounded-full font-medium">Welcome to Orca Support</span>
+            <span className="bg-gray-200 text-gray-500 text-xs px-3 py-1 rounded-full font-medium">Welcome to BIGDON Support</span>
           </div>
           
           <div className="flex justify-start">

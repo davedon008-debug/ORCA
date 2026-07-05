@@ -1,6 +1,6 @@
-# Orca - Full-Stack Modern E-Commerce Platform
+# BIGDON - Full-Stack Modern E-Commerce Platform
 
-Orca is a premium, responsive e-commerce web application for a modern home appliance and furniture mall. It provides comprehensive e-commerce functionality built with Next.js App Router and a scalable Node.js/Express backend.
+BIGDON is a premium, responsive e-commerce web application for a modern home appliance and furniture mall. It provides comprehensive e-commerce functionality built with Next.js App Router and a scalable Node.js/Express backend.
 
 ## Tech Stack
 - **Frontend**: React.js / Next.js (App Router), Tailwind CSS v4, Framer-Motion, Socket.io-client, Axios.

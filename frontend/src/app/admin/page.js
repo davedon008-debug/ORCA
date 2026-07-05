@@ -229,7 +229,7 @@ export default function AdminDashboard() {
       {/* Sidebar */}
       <div className="w-64 bg-gray-900 text-white min-h-[90vh] flex flex-col hidden md:flex border-r border-gray-800">
         <div className="p-6 border-b border-gray-800">
-          <h2 className="text-2xl font-black text-white tracking-tight">ORCA<span className="text-blue-500">ADMIN</span></h2>
+          <h2 className="text-2xl font-black text-white tracking-tight">BIGDON<span className="text-blue-500">ADMIN</span></h2>
         </div>
         <nav className="flex-1 p-4 space-y-2">
           <button onClick={() => setActiveTab('overview')} className={`w-full flex items-center px-4 py-3 rounded-xl transition-colors font-medium ${activeTab === 'overview' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-400 hover:bg-gray-800 hover:text-white'}`}>
@@ -571,7 +571,7 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Brand</label>
-                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={brand} onChange={(e) => setBrand(e.target.value)} required placeholder="e.g. Orca Design" />
+                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={brand} onChange={(e) => setBrand(e.target.value)} required placeholder="e.g. BIGDON Design" />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>

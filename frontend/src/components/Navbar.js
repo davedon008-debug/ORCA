@@ -34,8 +34,8 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center group">
-              <img src="/orca_logo.png" alt="ORCA Logo" className="h-10 w-auto object-contain mr-3 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md" />
-              <span className="font-outfit font-black text-2xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">ORCA</span>
+              <img src="/bigdon_logo.png" alt="BIGDON Logo" className="h-10 w-auto object-contain mr-3 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md" />
+              <span className="font-outfit font-black text-2xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">BIGDON</span>
             </Link>
           </div>
           

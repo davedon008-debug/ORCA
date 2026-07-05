@@ -121,9 +121,9 @@ const translations = {
 
     // AuthModal
     welcomeBack: "Welcome Back",
-    joinOrca: "Join Orca",
+    joinBIGDON: "Join BIGDON",
     welcomeBackSub: "Sign in to access your premium account",
-    joinOrcaSub: "Create an account to track orders and save wishlists",
+    joinBIGDONSub: "Create an account to track orders and save wishlists",
     fullName: "Full Name",
     emailAddress: "Email Address",
     passwordLabel: "Password",
@@ -263,9 +263,9 @@ const translations = {
     termsOfService: "Conditions d'utilisation",
     cookiePolicy: "Politique relative aux cookies",
     welcomeBack: "Bon retour",
-    joinOrca: "Rejoindre Orca",
+    joinBIGDON: "Rejoindre BIGDON",
     welcomeBackSub: "Connectez-vous pour accéder à votre compte premium",
-    joinOrcaSub: "Créez un compte pour suivre vos commandes et sauvegarder vos favoris",
+    joinBIGDONSub: "Créez un compte pour suivre vos commandes et sauvegarder vos favoris",
     fullName: "Nom Complet",
     emailAddress: "Adresse E-mail",
     passwordLabel: "Mot de passe",
@@ -401,9 +401,9 @@ const translations = {
     termsOfService: "Términos de Servicio",
     cookiePolicy: "Política de Cookies",
     welcomeBack: "Bienvenido de Nuevo",
-    joinOrca: "Únete a Orca",
+    joinBIGDON: "Únete a BIGDON",
     welcomeBackSub: "Inicia sesión para acceder a tu cuenta premium",
-    joinOrcaSub: "Crea una cuenta para rastrear pedidos y guardar favoritos",
+    joinBIGDONSub: "Crea una cuenta para rastrear pedidos y guardar favoritos",
     fullName: "Nombre Completo",
     emailAddress: "Dirección de E-mail",
     passwordLabel: "Contraseña",
@@ -539,9 +539,9 @@ const translations = {
     termsOfService: "Nutzungsbedingungen",
     cookiePolicy: "Cookie-Richtlinie",
     welcomeBack: "Willkommen zurück",
-    joinOrca: "Mitglied werden",
+    joinBIGDON: "Mitglied werden",
     welcomeBackSub: "Melden Sie sich an, um auf Ihr Premium-Konto zuzugreifen",
-    joinOrcaSub: "Erstellen Sie ein Konto, um Bestellungen zu verfolgen und Merklisten zu speichern",
+    joinBIGDONSub: "Erstellen Sie ein Konto, um Bestellungen zu verfolgen und Merklisten zu speichern",
     fullName: "Vollständiger Name",
     emailAddress: "E-Mail-Adresse",
     passwordLabel: "Passwort",
@@ -677,9 +677,9 @@ const translations = {
     termsOfService: "شروط الخدمة",
     cookiePolicy: "سياسة ملفات الارتباط",
     welcomeBack: "مرحباً بعودتك",
-    joinOrca: "انضم إلى أوركا",
+    joinBIGDON: "انضم إلى BIGDON",
     welcomeBackSub: "سجل الدخول للوصول إلى حسابك المميز",
-    joinOrcaSub: "أنشئ حساباً لتتبع طلباتك وحفظ قائمة رغباتك",
+    joinBIGDONSub: "أنشئ حساباً لتتبع طلباتك وحفظ قائمة رغباتك",
     fullName: "الاسم الكامل",
     emailAddress: "البريد الإلكتروني",
     passwordLabel: "كلمة المرور",
@@ -815,9 +815,9 @@ const translations = {
     termsOfService: "Awọn Tíì̀mù Iṣẹ́",
     cookiePolicy: "Ìlànà Kúkì",
     welcomeBack: "Kaabọ Pada",
-    joinOrca: "Darapọ mọ Orca",
+    joinBIGDON: "Darapọ mọ BIGDON",
     welcomeBackSub: "Wọle lati wọle si akọọlẹ Ere rẹ",
-    joinOrcaSub: "Ṣẹda akọọlẹ kan lati tọpinpin awọn aṣẹ ati fipamọ awọn ayanfẹ",
+    joinBIGDONSub: "Ṣẹda akọọlẹ kan lati tọpinpin awọn aṣẹ ati fipamọ awọn ayanfẹ",
     fullName: "Orukọ Kikun",
     emailAddress: "Àdírẹ́sì Imeeli",
     passwordLabel: "Kọkọrọ Aṣiri",
@@ -953,9 +953,9 @@ const translations = {
     termsOfService: "服务条款",
     cookiePolicy: "Cookie 政策",
     welcomeBack: "欢迎回来",
-    joinOrca: "加入 Orca",
+    joinBIGDON: "加入 BIGDON",
     welcomeBackSub: "登录以访问您的尊享账户",
-    joinOrcaSub: "创建账户以追踪订单并保存愿望清单",
+    joinBIGDONSub: "创建账户以追踪订单并保存愿望清单",
     fullName: "姓名",
     emailAddress: "邮箱地址",
     passwordLabel: "密码",
@@ -1009,7 +1009,7 @@ export const LanguageProvider = ({ children }) => {
 
   // Persist across page refreshes
   useEffect(() => {
-    const saved = localStorage.getItem("orca_lang");
+    const saved = localStorage.getItem("bigdon_lang");
     if (saved && translations[saved]) {
       setLang(saved);
       const langObj = LANGUAGES.find((l) => l.code === saved);
@@ -1021,7 +1021,7 @@ export const LanguageProvider = ({ children }) => {
   const changeLanguage = (code) => {
     if (!translations[code]) return;
     setLang(code);
-    localStorage.setItem("orca_lang", code);
+    localStorage.setItem("bigdon_lang", code);
 
     // Handle RTL for Arabic
     const langObj = LANGUAGES.find((l) => l.code === code);

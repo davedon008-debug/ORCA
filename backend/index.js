@@ -26,7 +26,7 @@ dotenv.config();
 if (
   process.env.MONGO_URI &&
   process.env.MONGO_URI !==
-    'mongodb+srv://<username>:<password>@cluster.mongodb.net/orca?retryWrites=true&w=majority'
+    'mongodb+srv://<username>:<password>@cluster.mongodb.net/bigdon?retryWrites=true&w=majority'
 ) {
   connectDB();
 }

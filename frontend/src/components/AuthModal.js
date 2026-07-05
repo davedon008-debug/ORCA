@@ -56,13 +56,13 @@ export default function AuthModal() {
         <div className="p-8">
           <div className="text-center mb-8">
             <div className="mx-auto w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg mb-4">
-              <span className="font-outfit font-bold text-white text-3xl">O</span>
+              <span className="font-outfit font-bold text-white text-3xl">B</span>
             </div>
             <h2 className="text-3xl font-bold text-gray-900 font-outfit tracking-tight">
-              {isLoginView ? t('welcomeBack') : t('joinOrca')}
+              {isLoginView ? t('welcomeBack') : t('joinBIGDON')}
             </h2>
             <p className="text-gray-500 mt-2 text-sm">
-              {isLoginView ? t('welcomeBackSub') : t('joinOrcaSub')}
+              {isLoginView ? t('welcomeBackSub') : t('joinBIGDONSub')}
             </p>
           </div>
 
