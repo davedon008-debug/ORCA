@@ -451,95 +451,101 @@ export default function AdminDashboard() {
 
               {activeTab === 'products' && (
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                  <table className="w-full text-left">
-                    <thead>
-                      <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
-                        <th className="px-6 py-4 font-semibold">ID</th>
-                        <th className="px-6 py-4 font-semibold">Name</th>
-                        <th className="px-6 py-4 font-semibold">Price</th>
-                        <th className="px-6 py-4 font-semibold">Category</th>
-                        <th className="px-6 py-4 font-semibold text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {products.map((product) => (
-                        <tr key={product._id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 text-sm text-gray-500">{product._id.substring(0,8)}</td>
-                          <td className="px-6 py-4 font-bold text-gray-900">{product.name}</td>
-                          <td className="px-6 py-4 text-gray-900 font-medium">${product.price.toFixed(2)}</td>
-                          <td className="px-6 py-4 text-gray-500">{product.category}</td>
-                          <td className="px-6 py-4 text-right">
-                            <button onClick={() => startEditProduct(product)} className="text-blue-600 hover:text-blue-900 p-2"><Edit size={16}/></button>
-                            <button onClick={() => deleteProductHandler(product._id)} className="text-red-500 hover:text-red-700 p-2"><Trash2 size={16}/></button>
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
+                          <th className="px-6 py-4 font-semibold">ID</th>
+                          <th className="px-6 py-4 font-semibold">Name</th>
+                          <th className="px-6 py-4 font-semibold">Price</th>
+                          <th className="px-6 py-4 font-semibold">Category</th>
+                          <th className="px-6 py-4 font-semibold text-right">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {products.map((product) => (
+                          <tr key={product._id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4 text-sm text-gray-500">{product._id.substring(0,8)}</td>
+                            <td className="px-6 py-4 font-bold text-gray-900">{product.name}</td>
+                            <td className="px-6 py-4 text-gray-900 font-medium">${product.price.toFixed(2)}</td>
+                            <td className="px-6 py-4 text-gray-500">{product.category}</td>
+                            <td className="px-6 py-4 text-right">
+                              <button onClick={() => startEditProduct(product)} className="text-blue-600 hover:text-blue-900 p-2"><Edit size={16}/></button>
+                              <button onClick={() => deleteProductHandler(product._id)} className="text-red-500 hover:text-red-700 p-2"><Trash2 size={16}/></button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
 
               {activeTab === 'customers' && (
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                  <table className="w-full text-left">
-                    <thead>
-                      <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
-                        <th className="px-6 py-4 font-semibold">ID</th>
-                        <th className="px-6 py-4 font-semibold">Name</th>
-                        <th className="px-6 py-4 font-semibold">Email</th>
-                        <th className="px-6 py-4 font-semibold">Role</th>
-                        <th className="px-6 py-4 font-semibold text-right">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {usersList.map((usr) => (
-                        <tr key={usr._id} className="hover:bg-gray-50">
-                          <td className="px-6 py-4 text-sm text-gray-500">{usr._id.substring(0,8)}</td>
-                          <td className="px-6 py-4 font-bold text-gray-900">{usr.name}</td>
-                          <td className="px-6 py-4 text-gray-500"><a href={`mailto:${usr.email}`} className="hover:underline">{usr.email}</a></td>
-                          <td className="px-6 py-4">
-                            {usr.isAdmin ? <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-md text-xs font-bold">Admin</span> : <span className="text-gray-500 text-xs">Customer</span>}
-                          </td>
-                          <td className="px-6 py-4 text-right">
-                             {!usr.isAdmin && <button className="text-red-500 hover:text-red-700 p-2"><Trash2 size={16}/></button>}
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
+                          <th className="px-6 py-4 font-semibold">ID</th>
+                          <th className="px-6 py-4 font-semibold">Name</th>
+                          <th className="px-6 py-4 font-semibold">Email</th>
+                          <th className="px-6 py-4 font-semibold">Role</th>
+                          <th className="px-6 py-4 font-semibold text-right">Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {usersList.map((usr) => (
+                          <tr key={usr._id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4 text-sm text-gray-500">{usr._id.substring(0,8)}</td>
+                            <td className="px-6 py-4 font-bold text-gray-900">{usr.name}</td>
+                            <td className="px-6 py-4 text-gray-500"><a href={`mailto:${usr.email}`} className="hover:underline">{usr.email}</a></td>
+                            <td className="px-6 py-4">
+                              {usr.isAdmin ? <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded-md text-xs font-bold">Admin</span> : <span className="text-gray-500 text-xs">Customer</span>}
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                               {!usr.isAdmin && <button className="text-red-500 hover:text-red-700 p-2"><Trash2 size={16}/></button>}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
 
               {activeTab === 'orders' && (
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                  <table className="w-full text-left">
-                    <thead>
-                      <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
-                        <th className="px-6 py-4 font-semibold">ID</th>
-                        <th className="px-6 py-4 font-semibold">User</th>
-                        <th className="px-6 py-4 font-semibold">Date</th>
-                        <th className="px-6 py-4 font-semibold">Total</th>
-                        <th className="px-6 py-4 font-semibold">Paid</th>
-                        <th className="px-6 py-4 font-semibold">Delivered</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {orders.map((order) => (
-                        <tr key={order._id} className="hover:bg-gray-50 text-sm">
-                          <td className="px-6 py-4 text-gray-500">{order._id.substring(0,8)}</td>
-                          <td className="px-6 py-4 font-bold text-gray-900">{order.user?.name || 'Guest'}</td>
-                          <td className="px-6 py-4 text-gray-500">{order.createdAt.substring(0, 10)}</td>
-                          <td className="px-6 py-4 font-bold text-gray-900">${order.totalPrice.toFixed(2)}</td>
-                          <td className="px-6 py-4">
-                            {order.isPaid ? <span className="text-green-600 font-bold">Paid</span> : <span className="text-red-500 font-bold">No</span>}
-                          </td>
-                          <td className="px-6 py-4">
-                            {order.isDelivered ? <span className="text-green-600 font-bold">Yes</span> : <span className="text-yellow-600 font-bold">Pending</span>}
-                          </td>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-left">
+                      <thead>
+                        <tr className="bg-gray-50 text-gray-500 text-sm border-b border-gray-100">
+                          <th className="px-6 py-4 font-semibold">ID</th>
+                          <th className="px-6 py-4 font-semibold">User</th>
+                          <th className="px-6 py-4 font-semibold">Date</th>
+                          <th className="px-6 py-4 font-semibold">Total</th>
+                          <th className="px-6 py-4 font-semibold">Paid</th>
+                          <th className="px-6 py-4 font-semibold">Delivered</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {orders.map((order) => (
+                          <tr key={order._id} className="hover:bg-gray-50 text-sm">
+                            <td className="px-6 py-4 text-gray-500">{order._id.substring(0,8)}</td>
+                            <td className="px-6 py-4 font-bold text-gray-900">{order.user?.name || 'Guest'}</td>
+                            <td className="px-6 py-4 text-gray-500">{order.createdAt.substring(0, 10)}</td>
+                            <td className="px-6 py-4 font-bold text-gray-900">${order.totalPrice.toFixed(2)}</td>
+                            <td className="px-6 py-4">
+                              {order.isPaid ? <span className="text-green-600 font-bold">Paid</span> : <span className="text-red-500 font-bold">No</span>}
+                            </td>
+                            <td className="px-6 py-4">
+                              {order.isDelivered ? <span className="text-green-600 font-bold">Yes</span> : <span className="text-yellow-600 font-bold">Pending</span>}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               )}
 
