@@ -54,7 +54,7 @@ export default function Cart() {
                       <select
                         value={item.qty}
                         onChange={(e) => addToCart(item, Number(e.target.value))}
-                        className="rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-200 py-2 px-3 outline-none"
+                        className="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-slate-800 text-gray-900 dark:text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-200 py-2 px-3 outline-none"
                       >
                         {[...Array(item.countInStock || 10).keys()].map((x) => (
                           <option key={x + 1} value={x + 1}>{x + 1}</option>

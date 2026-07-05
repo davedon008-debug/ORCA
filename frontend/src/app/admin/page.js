@@ -258,7 +258,7 @@ export default function AdminDashboard() {
               <div className="relative" ref={notifPanelRef}>
                 <button
                   onClick={() => { setIsNotifPanelOpen((v) => !v); markAllRead(); }}
-                  className="relative p-2 rounded-xl bg-gray-100 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  className="relative p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/30 dark:hover:text-blue-400 transition-colors"
                   title="Order Notifications"
                 >
                   <Bell size={22} />
@@ -581,7 +581,7 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                    <select className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    <select className="w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={category} onChange={(e) => setCategory(e.target.value)} required>
                       <option value="Living Room">Living Room</option>
                       <option value="Kitchen">Kitchen Appliances</option>
                       <option value="Bedroom">Bedroom</option>

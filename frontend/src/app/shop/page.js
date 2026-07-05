@@ -95,7 +95,7 @@ function ShopContent() {
               <select 
                 value={sort} 
                 onChange={(e) => setSort(e.target.value)}
-                className="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="w-full bg-white dark:bg-slate-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg p-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
                 <option value="newest">{t('sortNewest')}</option>
                 <option value="lowest">{t('sortLowest')}</option>
