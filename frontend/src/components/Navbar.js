@@ -32,7 +32,7 @@ export default function Navbar() {
     <nav className="glass shadow-sm sticky top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
+          <div className="flex items-center mr-4">
             <Link href="/" className="flex-shrink-0 flex items-center group">
               <img src="/bigdon_logo.png" alt="BIGDON Logo" className="h-10 w-auto object-contain mr-3 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md" />
               <span className="font-outfit font-black text-2xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">BIGDON</span>
@@ -156,9 +156,6 @@ export default function Navbar() {
               </button>
             )}
             
-            <button className="md:hidden text-gray-600 hover:text-blue-600">
-              <Menu size={24} />
-            </button>
           </div>
         </div>
       </div>
