@@ -248,8 +248,8 @@ export default function AdminDashboard() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <div className="p-8">
+      <div className="flex-1 flex flex-col min-w-0 w-full">
+        <div className="p-4 sm:p-8">
           
           <div className="flex justify-between items-center mb-8">
             <h1 className="text-3xl font-extrabold text-gray-900 capitalize">{activeTab === 'customers' ? 'Users' : activeTab}</h1>
