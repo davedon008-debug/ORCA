@@ -1,8 +1,12 @@
 import axios from "axios";
 
 export const getBackendUrl = () => {
+  if (process.env.NEXT_PUBLIC_BACKEND_URL) {
+    return process.env.NEXT_PUBLIC_BACKEND_URL;
+  }
   if (typeof window !== "undefined") {
-    return `http://${window.location.hostname}:5001`;
+    // Fall back to localhost dev server if no backend URL environment variable is set
+    return `http://localhost:5001`;
   }
   return "http://localhost:5001";
 };
