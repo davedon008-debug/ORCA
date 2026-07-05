@@ -5,7 +5,11 @@ export const getBackendUrl = () => {
     return process.env.NEXT_PUBLIC_BACKEND_URL;
   }
   if (typeof window !== "undefined") {
-    // Fall back to localhost dev server if no backend URL environment variable is set
+    const host = window.location.hostname;
+    // If accessing via local IP or localhost, connect to the same host's port 5001
+    if (host === "localhost" || host === "127.0.0.1" || host.match(/^\d+\.\d+\.\d+\.\d+$/)) {
+      return `http://${host}:5001`;
+    }
     return `http://localhost:5001`;
   }
   return "http://localhost:5001";
