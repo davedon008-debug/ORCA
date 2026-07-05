@@ -10,9 +10,9 @@ export const getBackendUrl = () => {
     if (host === "localhost" || host === "127.0.0.1" || host.match(/^\d+\.\d+\.\d+\.\d+$/)) {
       return `http://${host}:5001`;
     }
-    return `http://localhost:5001`;
+    return `https://orca-r9ui.onrender.com`;
   }
-  return "http://localhost:5001";
+  return "https://orca-r9ui.onrender.com";
 };
 
 const api = axios.create({
