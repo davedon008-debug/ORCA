@@ -16,13 +16,14 @@ export const getBackendUrl = () => {
 };
 
 const api = axios.create({
-  baseURL: getBackendUrl(),
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 api.interceptors.request.use((config) => {
+  config.baseURL = getBackendUrl();
+
   if (typeof window !== "undefined") {
     const user = localStorage.getItem("user");
 
