@@ -159,7 +159,7 @@ export default function ProductDetails() {
 
           {/* Product Details */}
           <div className="w-full lg:w-1/2 flex flex-col">
-            <h1 className="font-outfit text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight mb-2">
+            <h1 className="font-outfit text-3xl sm:text-4xl md:text-5xl font-black text-gray-900 tracking-tight leading-tight mb-2 break-words">
               {product.name}
             </h1>
             <p className="text-lg text-blue-600 font-medium mb-4">{product.brand}</p>
@@ -222,24 +222,24 @@ export default function ProductDetails() {
         </div>
 
         {/* Tabs section */}
-        <div className="bg-slate-50 rounded-3xl p-8 md:p-12 border border-gray-100">
-          <div className="flex border-b border-gray-200 mb-8 space-x-8">
+        <div className="bg-slate-50 rounded-3xl p-4 sm:p-8 md:p-12 border border-gray-100">
+          <div className="flex border-b border-gray-200 mb-8 space-x-4 sm:space-x-8 overflow-x-auto whitespace-nowrap scrollbar-none">
             <button 
-              className={`pb-4 text-lg font-bold transition-colors relative ${activeTab === 'description' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'}`}
+              className={`pb-4 text-sm sm:text-lg font-bold transition-colors relative flex-shrink-0 ${activeTab === 'description' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'}`}
               onClick={() => setActiveTab('description')}
             >
               Description
               {activeTab === 'description' && <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 rounded-t-md"></div>}
             </button>
             <button 
-              className={`pb-4 text-lg font-bold transition-colors relative ${activeTab === 'specs' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'}`}
+              className={`pb-4 text-sm sm:text-lg font-bold transition-colors relative flex-shrink-0 ${activeTab === 'specs' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'}`}
               onClick={() => setActiveTab('specs')}
             >
               Specifications
               {activeTab === 'specs' && <div className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 rounded-t-md"></div>}
             </button>
             <button 
-              className={`pb-4 text-lg font-bold transition-colors relative ${activeTab === 'reviews' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'}`}
+              className={`pb-4 text-sm sm:text-lg font-bold transition-colors relative flex-shrink-0 ${activeTab === 'reviews' ? 'text-blue-600' : 'text-gray-500 hover:text-gray-900'}`}
               onClick={() => setActiveTab('reviews')}
             >
               Reviews ({product.numReviews})

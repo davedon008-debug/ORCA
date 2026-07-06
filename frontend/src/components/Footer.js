@@ -87,7 +87,7 @@ export default function Footer() {
             <h4 className="font-bold text-base text-white mb-5 tracking-wide uppercase text-xs text-gray-400">
               {t('quickLinks')}
             </h4>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-3 text-sm list-none">
               {[
                 { label: t('allProducts'), href: "/shop" },
                 { label: t('livingRoom'), href: "/shop?category=Living Room" },
@@ -109,7 +109,7 @@ export default function Footer() {
             <h4 className="font-bold text-base text-white mb-5 uppercase text-xs text-gray-400 tracking-wide">
               {t('support')}
             </h4>
-            <ul className="space-y-3 text-sm">
+            <ul className="space-y-3 text-sm list-none">
               {[
                 { label: t('myAccount'), href: "/dashboard" },
                 { label: t('trackOrder'), href: "/dashboard" },
