@@ -7,6 +7,7 @@ import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
+import SearchModal from './SearchModal';
 
 export default function Navbar() {
   const { cartItems } = useContext(CartContext);
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [keyword, setKeyword] = useState('');
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isUserOpen, setIsUserOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const cartItemsCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
@@ -55,6 +57,15 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center space-x-6">
+            {/* Mobile Search Button */}
+            <button 
+              onClick={() => setIsSearchOpen(true)}
+              className="md:hidden text-gray-600 hover:text-blue-600 transition-colors focus:outline-none cursor-pointer"
+              title="Search"
+            >
+              <Search size={24} />
+            </button>
+
             {/* Language Selector Dropdown */}
             <div 
               onClick={() => setIsLangOpen(!isLangOpen)}
@@ -159,6 +170,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </nav>
   );
 }
