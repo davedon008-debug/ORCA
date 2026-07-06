@@ -8,12 +8,14 @@ const getProducts = asyncHandler(async (req, res) => {
   const pageSize = Number(req.query.pageSize) || 12;
   const page = Number(req.query.pageNumber) || 1;
 
-  // Search keyword
+  // Search keyword — searches across name, brand, category & description
   const keyword = req.query.keyword ? {
-    name: {
-      $regex: req.query.keyword,
-      $options: 'i',
-    },
+    $or: [
+      { name: { $regex: req.query.keyword, $options: 'i' } },
+      { brand: { $regex: req.query.keyword, $options: 'i' } },
+      { category: { $regex: req.query.keyword, $options: 'i' } },
+      { description: { $regex: req.query.keyword, $options: 'i' } },
+    ],
   } : {};
 
   // Filtering
@@ -29,8 +31,19 @@ const getProducts = asyncHandler(async (req, res) => {
   } : {};
   const inStock = req.query.inStock === 'true' ? { countInStock: { $gt: 0 } } : {};
 
-  // Find all filters combined
-  const filter = { ...keyword, ...category, ...brand, ...color, ...rating, ...price, ...inStock };
+  // Find all filters combined — use $and so the keyword $or doesn't clash with other field filters
+  const otherFilters = { ...category, ...brand, ...color, ...rating, ...price, ...inStock };
+  const hasKeyword = req.query.keyword && req.query.keyword.trim() !== '';
+  const hasOtherFilters = Object.keys(otherFilters).length > 0;
+
+  let filter = {};
+  if (hasKeyword && hasOtherFilters) {
+    filter = { $and: [keyword, otherFilters] };
+  } else if (hasKeyword) {
+    filter = keyword;
+  } else {
+    filter = otherFilters;
+  }
 
   // Sorting
   let sortOption = {};
