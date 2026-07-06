@@ -32,12 +32,12 @@ export default function Navbar() {
 
   return (
     <nav className="glass shadow-sm sticky top-0 z-50 transition-all duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center mr-4">
+          <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center group">
-              <img src="/bigdon_logo.png" alt="BIGDON Logo" className="h-10 w-auto object-contain mr-3 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md" />
-              <span className="font-outfit font-black text-2xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">BIGDON</span>
+              <img src="/bigdon_logo.png" alt="BIGDON Logo" className="h-9 w-auto object-contain mr-2.5 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md" />
+              <span className="font-outfit font-black text-xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">BIGDON</span>
             </Link>
           </div>
           
@@ -56,14 +56,14 @@ export default function Navbar() {
             </form>
           </div>
 
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center gap-5 md:gap-6">
             {/* Mobile Search Button */}
             <button 
               onClick={() => setIsSearchOpen(true)}
-              className="md:hidden text-gray-600 hover:text-blue-600 transition-colors focus:outline-none cursor-pointer"
+              className="md:hidden text-gray-600 hover:text-blue-600 transition-colors focus:outline-none cursor-pointer p-1"
               title="Search"
             >
-              <Search size={24} />
+              <Search size={22} />
             </button>
 
             {/* Language Selector Dropdown */}
