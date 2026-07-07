@@ -22,8 +22,8 @@ export default function Home() {
   const heroSlides = [
     {
       image: '/discount_banner.jpg',
-      title: t('discountSlideTitle') || 'Up To 50% Off\nSpecial Offer.',
-      desc: t('discountSlideDesc') || 'Take advantage of our exclusive discount on high-quality home furniture and appliances.',
+      title: t('Up To 50% Off\nSpecial Offer. ') || 'Up To 50% Off\nSpecial Offer.',
+      desc: t('Take advantage of our exclusive discount on high-quality home furniture and appliances.') || 'Take advantage of our exclusive discount on high-quality home furniture and appliances.',
     },
     {
       image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1920&q=80',
