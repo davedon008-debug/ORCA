@@ -2,7 +2,7 @@
 
 import { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { X, Lock, Mail, User as UserIcon } from 'lucide-react';
+import { X, Lock, Mail, User as UserIcon, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -14,6 +14,8 @@ export default function AuthModal() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -98,26 +100,40 @@ export default function AuthModal() {
             <div className="relative">
               <Lock className="absolute left-3 top-3.5 text-gray-400" size={20} />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder={t('passwordLabel')}
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                className="w-full pl-10 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 focus:outline-none"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
 
             {!isLoginView && (
               <div className="relative">
                 <Lock className="absolute left-3 top-3.5 text-gray-400" size={20} />
                 <input
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   placeholder={t('confirmPasswordLabel')}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                  className="w-full pl-10 pr-10 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 focus:outline-none"
+                >
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
             )}
 
@@ -132,7 +148,7 @@ export default function AuthModal() {
           <div className="mt-8 text-center text-sm text-gray-600">
             {isLoginView ? t('dontHaveAccount') : t('alreadyHaveAccount')}{' '}
             <button 
-              onClick={() => { setIsLoginView(!isLoginView); setError(''); }} 
+              onClick={() => { setIsLoginView(!isLoginView); setError(''); setShowPassword(false); setShowConfirmPassword(false); }} 
               className="font-bold text-blue-600 hover:text-indigo-600 hover:underline transition-colors focus:outline-none"
             >
               {isLoginView ? t('signUp') : t('logIn')}

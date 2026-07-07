@@ -3,7 +3,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { User as UserIcon, Package, MapPin, Heart, LogOut } from 'lucide-react';
+import { User as UserIcon, Package, MapPin, Heart, LogOut, Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import api from '../../utils/axiosInstance';
 
@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [address, setAddress] = useState('');
   const [updateMsg, setUpdateMsg] = useState('');
 
@@ -173,7 +174,22 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">New Password (leave blank to keep current)</label>
-                    <input type="password" placeholder="••••••••" className="w-full rounded-xl border border-gray-300 py-3 px-4 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <div className="relative">
+                      <input 
+                        type={showPassword ? "text" : "password"} 
+                        placeholder="••••••••" 
+                        className="w-full rounded-xl border border-gray-300 py-3 pl-4 pr-10 text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 focus:outline-none"
+                      >
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      </button>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Shipping Address</label>
