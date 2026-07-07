@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/Product.js';
+import Order from '../models/Order.js';
 
 // @desc    Fetch all products with filtering, sorting, and pagination
 // @route   GET /api/products
@@ -155,6 +156,16 @@ const createProductReview = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
+    const hasBought = await Order.findOne({
+      user: req.user._id,
+      'orderItems.product': req.params.id,
+    });
+
+    if (!hasBought) {
+      res.status(400);
+      throw new Error('You can only review products you have purchased');
+    }
+
     const alreadyReviewed = product.reviews.find(
       (r) => r.user.toString() === req.user._id.toString()
     );

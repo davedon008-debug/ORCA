@@ -21,6 +21,11 @@ export default function Home() {
 
   const heroSlides = [
     {
+      image: '/discount_banner.jpg',
+      title: t('discountSlideTitle') || 'Up To 50% Off\nSpecial Offer.',
+      desc: t('discountSlideDesc') || 'Take advantage of our exclusive discount on high-quality home furniture and appliances.',
+    },
+    {
       image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1920&q=80',
       title: t('slideTitle1'),
       desc: t('slideDesc1'),

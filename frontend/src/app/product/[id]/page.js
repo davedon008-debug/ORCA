@@ -16,6 +16,7 @@ export default function ProductDetails() {
   const [qty, setQty] = useState(1);
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('description');
+  const [hasBought, setHasBought] = useState(false);
   
   const { addToCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
@@ -47,6 +48,25 @@ export default function ProductDetails() {
   useEffect(() => {
     if (id) fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const checkPurchase = async () => {
+      if (user && id) {
+        try {
+          const { data: orders } = await api.get('/api/orders/myorders');
+          const bought = orders.some(o => 
+            o.orderItems.some(item => item.product.toString() === id.toString())
+          );
+          setHasBought(bought);
+        } catch (err) {
+          console.error('Failed to verify purchase history', err);
+        }
+      } else {
+        setHasBought(false);
+      }
+    };
+    checkPurchase();
+  }, [user, id]);
 
   const submitReviewHandler = async (e) => {
     e.preventDefault();
@@ -304,6 +324,10 @@ export default function ProductDetails() {
                     <div className="text-center py-6 bg-gray-50 rounded-xl">
                       <p className="text-gray-500 mb-3">You must be logged in to leave a review.</p>
                       <Link href="/" className="text-blue-600 font-bold hover:underline">Sign In →</Link>
+                    </div>
+                  ) : !hasBought ? (
+                    <div className="text-center py-6 bg-gray-50 rounded-xl">
+                      <p className="text-gray-500">You can only rate and review this product after purchasing it.</p>
                     </div>
                   ) : alreadyReviewed ? (
                     <div className="flex items-center gap-3 bg-green-50 text-green-700 border border-green-200 rounded-xl px-5 py-4">

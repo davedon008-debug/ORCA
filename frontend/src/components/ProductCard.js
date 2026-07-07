@@ -18,9 +18,9 @@ export default function ProductCard({ product, index }) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <div className="product-image-container">
-        {product.image ? (
+        {(product.image || (product.images && product.images[0])) ? (
           <img 
-            src={product.image.startsWith('/') ? `${getBackendUrl()}${product.image}` : product.image} 
+            src={(product.image || product.images[0]).startsWith('/') ? `${getBackendUrl()}${product.image || product.images[0]}` : (product.image || product.images[0])} 
             alt={product.name} 
             className="product-image" 
             loading="lazy" 
