@@ -4,6 +4,7 @@ import {
   getOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
+  updateOrderToPaidByAdmin,
   getMyOrders,
   getOrders,
 } from '../controllers/orderController.js';
@@ -24,7 +25,9 @@ router.route('/:id').get(protect, validateMongoId, getOrderById);
 router.route('/:id/pay').put(protect, userWriteLimiter, validateMongoId, updateOrderToPaid);
 
 // ─── Admin only (HIGH tier) ───────────────────────────────────────────────────
-// PUT /api/orders/:id/deliver — Mark as delivered (30/15min)
+// PUT /api/orders/:id/deliver   — Toggle delivered (30/15min)
+// PUT /api/orders/:id/pay-admin — Toggle paid (30/15min)
 router.route('/:id/deliver').put(protect, admin, adminWriteLimiter, validateMongoId, updateOrderToDelivered);
+router.route('/:id/pay-admin').put(protect, admin, adminWriteLimiter, validateMongoId, updateOrderToPaidByAdmin);
 
 export default router;

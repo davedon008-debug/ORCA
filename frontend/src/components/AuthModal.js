@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { X, Lock, Mail, User as UserIcon, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function AuthModal() {
-  const { isAuthModalOpen, setAuthModalOpen, login, register } = useContext(AuthContext);
+  const { isAuthModalOpen, setAuthModalOpen, login, register, loginWithGoogle } = useContext(AuthContext);
   const { t } = useLanguage();
   const [isLoginView, setIsLoginView] = useState(true);
   const [name, setName] = useState('');
@@ -18,6 +18,64 @@ export default function AuthModal() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+
+  // Load Google Client SDK
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !window.google) {
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }, []);
+
+  // Initialize and Render Google Sign In Button
+  useEffect(() => {
+    const handleGoogleLoginSuccess = async (response) => {
+      setError('');
+      const idToken = response.credential;
+      try {
+        await loginWithGoogle(idToken);
+        setAuthModalOpen(false);
+        router.refresh();
+      } catch (err) {
+        setError(err.response?.data?.message || 'Google Authentication failed.');
+      }
+    };
+
+    const initializeGoogleSignIn = () => {
+      if (window.google && isAuthModalOpen) {
+        const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+        if (!clientId) {
+          console.warn('NEXT_PUBLIC_GOOGLE_CLIENT_ID is not configured');
+          return;
+        }
+        window.google.accounts.id.initialize({
+          client_id: clientId,
+          callback: handleGoogleLoginSuccess,
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById('googleSignInButton'),
+          { theme: 'outline', size: 'large', width: 380, shape: 'pill' }
+        );
+      }
+    };
+
+    if (isAuthModalOpen) {
+      if (window.google) {
+        initializeGoogleSignIn();
+      } else {
+        const interval = setInterval(() => {
+          if (window.google) {
+            initializeGoogleSignIn();
+            clearInterval(interval);
+          }
+        }, 100);
+        return () => clearInterval(interval);
+      }
+    }
+  }, [isAuthModalOpen]);
 
   if (!isAuthModalOpen) return null;
 
@@ -144,6 +202,18 @@ export default function AuthModal() {
               {isLoginView ? t('signIn') : t('createAccount')}
             </button>
           </form>
+
+          {/* Google Sign In Divider & Button */}
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-200"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-4 text-gray-500 font-medium">Or continue with</span>
+            </div>
+          </div>
+
+          <div id="googleSignInButton" className="w-full flex justify-center mt-4"></div>
 
           <div className="mt-8 text-center text-sm text-gray-600">
             {isLoginView ? t('dontHaveAccount') : t('alreadyHaveAccount')}{' '}

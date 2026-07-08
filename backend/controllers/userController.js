@@ -173,4 +173,65 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, registerUser, getUserProfile, updateUserProfile, getUsers, deleteUser, getUserById, updateUser };
+// @desc    Auth user with Google token
+// @route   POST /api/users/google
+// @access  Public
+const authGoogleUser = asyncHandler(async (req, res) => {
+  const { idToken } = req.body;
+
+  if (!idToken) {
+    res.status(400);
+    throw new Error('Google token is missing');
+  }
+
+  // Fetch token validation from Google's secure validation endpoint
+  const response = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`);
+  const googleUser = await response.json();
+
+  if (googleUser.error || googleUser.error_description) {
+    res.status(400);
+    throw new Error(googleUser.error_description || 'Invalid Google token');
+  }
+
+  // Verify the audience matches our GOOGLE_CLIENT_ID
+  const clientId = process.env.GOOGLE_CLIENT_ID;
+  if (clientId && googleUser.aud !== clientId) {
+    res.status(400);
+    throw new Error('Google client ID mismatch');
+  }
+
+  const { email, name } = googleUser;
+
+  if (!email) {
+    res.status(400);
+    throw new Error('Email not provided by Google account');
+  }
+
+  let user = await User.findOne({ email });
+
+  if (!user) {
+    // Register as new user with random secure password
+    const randomPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+    user = await User.create({
+      name: name || email.split('@')[0],
+      email,
+      password: randomPassword,
+    });
+  }
+
+  if (user) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(400);
+    throw new Error('Failed to authenticate Google user');
+  }
+});
+
+export { authUser, registerUser, getUserProfile, updateUserProfile, getUsers, deleteUser, getUserById, updateUser, authGoogleUser };
+

@@ -208,6 +208,26 @@ export default function AdminDashboard() {
     }
   };
 
+  const toggleOrderDelivered = async (orderId) => {
+    try {
+      const authOptions = { headers: { Authorization: `Bearer ${user?.token}` } };
+      await api.put(`/api/orders/${orderId}/deliver`, {}, authOptions);
+      fetchAdminData();
+    } catch (err) {
+      alert('Failed to update delivery status: ' + (err.response?.data?.message || err.message));
+    }
+  };
+
+  const toggleOrderPaid = async (orderId) => {
+    try {
+      const authOptions = { headers: { Authorization: `Bearer ${user?.token}` } };
+      await api.put(`/api/orders/${orderId}/pay-admin`, {}, authOptions);
+      fetchAdminData();
+    } catch (err) {
+      alert('Failed to update payment status: ' + (err.response?.data?.message || err.message));
+    }
+  };
+
   const deleteProductHandler = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
@@ -526,6 +546,7 @@ export default function AdminDashboard() {
                           <th className="px-6 py-4 font-semibold">Total</th>
                           <th className="px-6 py-4 font-semibold">Paid</th>
                           <th className="px-6 py-4 font-semibold">Delivered</th>
+                          <th className="px-6 py-4 font-semibold text-right">Actions</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
@@ -540,6 +561,28 @@ export default function AdminDashboard() {
                             </td>
                             <td className="px-6 py-4">
                               {order.isDelivered ? <span className="text-green-600 font-bold">Yes</span> : <span className="text-yellow-600 font-bold">Pending</span>}
+                            </td>
+                            <td className="px-6 py-4 text-right space-x-2">
+                              <button
+                                onClick={() => toggleOrderPaid(order._id)}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                                  order.isPaid
+                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
+                                    : 'bg-green-50 text-green-600 hover:bg-green-100 border border-green-200'
+                                }`}
+                              >
+                                {order.isPaid ? 'Mark Unpaid' : 'Mark Paid'}
+                              </button>
+                              <button
+                                onClick={() => toggleOrderDelivered(order._id)}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-colors ${
+                                  order.isDelivered
+                                    ? 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'
+                                    : 'bg-yellow-50 text-yellow-600 hover:bg-yellow-100 border border-yellow-200'
+                                }`}
+                              >
+                                {order.isDelivered ? 'Mark Pending' : 'Mark Delivered'}
+                              </button>
                             </td>
                           </tr>
                         ))}

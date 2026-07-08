@@ -88,15 +88,33 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Update order to delivered
+// @desc    Update order to delivered (toggles status for admin correction)
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
 const updateOrderToDelivered = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id);
 
   if (order) {
-    order.isDelivered = true;
-    order.deliveredAt = Date.now();
+    order.isDelivered = !order.isDelivered;
+    order.deliveredAt = order.isDelivered ? Date.now() : undefined;
+
+    const updatedOrder = await order.save();
+    res.json(updatedOrder);
+  } else {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+});
+
+// @desc    Update order to paid by admin (toggles purchased status)
+// @route   PUT /api/orders/:id/pay-admin
+// @access  Private/Admin
+const updateOrderToPaidByAdmin = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (order) {
+    order.isPaid = !order.isPaid;
+    order.paidAt = order.isPaid ? Date.now() : undefined;
 
     const updatedOrder = await order.save();
     res.json(updatedOrder);
@@ -127,6 +145,7 @@ export {
   getOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
+  updateOrderToPaidByAdmin,
   getMyOrders,
   getOrders,
 };
