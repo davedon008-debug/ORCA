@@ -1,6 +1,7 @@
 import './globals.css';
 import { Providers } from './Providers';
 import Navbar from '../components/Navbar';
+import CategoryNavbar from '../components/CategoryNavbar';
 import Footer from '../components/Footer';
 import AuthModal from '../components/AuthModal';
 import { Inter, Outfit } from 'next/font/google';
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
       <body className="bg-slate-50 text-slate-900 font-sans antialiased flex flex-col min-h-screen">
         <Providers>
           <Navbar />
+          <CategoryNavbar />
           <main className="flex-grow selection:bg-blue-500 selection:text-white">{children}</main>
           <Footer />
           <AuthModal />

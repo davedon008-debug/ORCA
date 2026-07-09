@@ -37,6 +37,7 @@ export default function AdminDashboard() {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [apiCategories, setApiCategories] = useState([]);
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
@@ -110,6 +111,9 @@ export default function AdminDashboard() {
       setProducts(resProducts.data.products || []);
       setUsersList(resUsers.data);
       
+      const resCategories = await api.get('/api/categories');
+      setApiCategories(resCategories.data);
+      
       const sales = resOrders.data.reduce((acc, order) => acc + (order.isPaid ? order.totalPrice : 0), 0);
       setStats({
         totalSales: sales,
@@ -134,7 +138,7 @@ export default function AdminDashboard() {
       setName('');
       setPrice('');
       setBrand('');
-      setCategory('Living Room');
+      setCategory(apiCategories[0]?.name || 'Living Room');
       setCountInStock(10);
       setColor('Gray');
       setDescription('');
@@ -624,11 +628,23 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                    <select className="w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={category} onChange={(e) => setCategory(e.target.value)} required>
-                      <option value="Living Room">Living Room</option>
-                      <option value="Kitchen">Kitchen Appliances</option>
-                      <option value="Bedroom">Bedroom</option>
-                      <option value="Office">Office</option>
+                    <select className="w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm" value={category} onChange={(e) => setCategory(e.target.value)} required>
+                      {apiCategories.filter(c => !c.parent).map((parent) => {
+                        const subs = apiCategories.filter(c => c.parent === parent.name);
+                        if (subs.length > 0) {
+                          return (
+                            <optgroup key={parent._id} label={parent.name}>
+                              <option value={parent.name}>{parent.name} (All)</option>
+                              {subs.map(sub => (
+                                <option key={sub._id} value={sub.name}>{sub.name}</option>
+                              ))}
+                            </optgroup>
+                          );
+                        }
+                        return (
+                          <option key={parent._id} value={parent.name}>{parent.name}</option>
+                        );
+                      })}
                     </select>
                   </div>
                 </div>

@@ -3,7 +3,7 @@
 import { useEffect, useState, useContext, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Star, Filter, ShoppingBag, Heart } from 'lucide-react';
+import { Star, Filter, ShoppingBag, Heart, ChevronDown } from 'lucide-react';
 import api, { getBackendUrl } from '../../utils/axiosInstance';
 import { CartContext } from '../../context/CartContext';
 import { useLanguage } from '../../context/LanguageContext';
@@ -21,15 +21,37 @@ function ShopContent() {
   const keyword = searchParams.get('keyword') || '';
   const [category, setCategory] = useState(searchParams.get('category') || 'all');
   const [sort, setSort] = useState('newest');
+  const [apiCategories, setApiCategories] = useState([]);
+  const [expandedParents, setExpandedParents] = useState({});
   
   const { addToCart } = useContext(CartContext);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await api.get('/api/categories');
+        setApiCategories(data);
+      } catch (err) {
+        console.error('Failed to load categories in Shop', err);
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Update selected category if search parameter updates (e.g. from CategoryNavbar)
+  useEffect(() => {
+    const catParam = searchParams.get('category');
+    if (catParam) {
+      setCategory(catParam);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
         let query = `/api/products?keyword=${keyword}&sort=${sort}`;
-        if (category !== 'all') query += `&category=${category}`;
+        if (category !== 'all') query += `&category=${encodeURIComponent(category)}`;
         
         const { data } = await api.get(query);
         setProducts(data.products || []);
@@ -43,18 +65,31 @@ function ShopContent() {
     fetchProducts();
   }, [keyword, category, sort]);
 
-  const categories = ['all', 'Living Room', 'Kitchen', 'Bedroom', 'Office'];
+  const toggleParentExpand = (parentName, e) => {
+    e.stopPropagation();
+    setExpandedParents(prev => ({
+      ...prev,
+      [parentName]: !prev[parentName]
+    }));
+  };
+
+  const selectParentCategory = (parentName, e) => {
+    setCategory(parentName);
+    setExpandedParents(prev => ({
+      ...prev,
+      [parentName]: true
+    }));
+  };
 
   const getCategoryLabel = (cat) => {
-    switch (cat) {
-      case 'all': return t('allProducts');
-      case 'Living Room': return t('livingRoom');
-      case 'Kitchen': return t('kitchen');
-      case 'Bedroom': return t('bedroom');
-      case 'Office': return t('office');
-      default: return cat;
-    }
+    if (cat === 'all') return t('allProducts');
+    // Normalizes to camelCase dynamically
+    const camelKey = cat.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
+    return t(camelKey) || cat;
   };
+
+  const parentCategories = apiCategories.filter(c => !c.parent);
+  const getSubcategoriesForParent = (parentName) => apiCategories.filter(c => c.parent === parentName);
 
   return (
     <div className="bg-slate-50 min-h-screen">
@@ -76,17 +111,56 @@ function ShopContent() {
             
             <div className="mb-6">
               <h4 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wider">{t('categories')}</h4>
-              <ul className="space-y-2">
-                {categories.map((cat) => (
-                  <li key={cat}>
-                    <button 
-                      onClick={() => setCategory(cat)}
-                      className={`text-sm w-full text-left capitalize transition-colors ${category === cat ? 'text-blue-600 font-bold' : 'text-gray-600 hover:text-blue-600'}`}
-                    >
-                      {getCategoryLabel(cat)}
-                    </button>
-                  </li>
-                ))}
+              <ul className="space-y-3 max-h-[380px] overflow-y-auto pr-1 scrollbar-thin">
+                <li>
+                  <button 
+                    onClick={() => setCategory('all')}
+                    className={`text-sm w-full text-left capitalize transition-colors font-semibold ${category === 'all' ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-blue-600'}`}
+                  >
+                    {getCategoryLabel('all')}
+                  </button>
+                </li>
+                {parentCategories.map((parent) => {
+                  const subs = getSubcategoriesForParent(parent.name);
+                  const isExpanded = category === parent.name || expandedParents[parent.name] || subs.some(s => s.name === category);
+                  
+                  return (
+                    <li key={parent._id} className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <button 
+                          onClick={(e) => selectParentCategory(parent.name, e)}
+                          className={`text-sm text-left capitalize transition-colors font-semibold ${category === parent.name ? 'text-blue-600 font-bold' : 'text-gray-700 hover:text-blue-600'}`}
+                        >
+                          {getCategoryLabel(parent.name)}
+                        </button>
+                        {subs.length > 0 && (
+                          <button 
+                            onClick={(e) => toggleParentExpand(parent.name, e)}
+                            className="p-1 text-gray-400 hover:text-gray-600 focus:outline-none transition-transform duration-250 cursor-pointer"
+                            style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                          >
+                            <ChevronDown size={14} />
+                          </button>
+                        )}
+                      </div>
+                      
+                      {subs.length > 0 && isExpanded && (
+                        <ul className="pl-3 border-l border-gray-100 space-y-1.5 mt-1 transition-all duration-200">
+                          {subs.map((sub) => (
+                            <li key={sub._id}>
+                              <button 
+                                onClick={() => setCategory(sub.name)}
+                                className={`text-xs w-full text-left transition-colors ${category === sub.name ? 'text-blue-600 font-bold' : 'text-gray-500 hover:text-blue-600'}`}
+                              >
+                                {getCategoryLabel(sub.name)}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 

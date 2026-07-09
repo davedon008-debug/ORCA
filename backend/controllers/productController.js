@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/Product.js';
 import Order from '../models/Order.js';
+import Category from '../models/Category.js';
 
 // @desc    Fetch all products with filtering, sorting, and pagination
 // @route   GET /api/products
@@ -20,7 +21,16 @@ const getProducts = asyncHandler(async (req, res) => {
   } : {};
 
   // Filtering
-  const category = req.query.category && req.query.category !== 'all' ? { category: req.query.category } : {};
+  let categoryFilter = {};
+  if (req.query.category && req.query.category !== 'all') {
+    const subCategories = await Category.find({ parent: req.query.category });
+    if (subCategories.length > 0) {
+      const categoryNames = [req.query.category, ...subCategories.map(c => c.name)];
+      categoryFilter = { category: { $in: categoryNames } };
+    } else {
+      categoryFilter = { category: req.query.category };
+    }
+  }
   const brand = req.query.brand && req.query.brand !== 'all' ? { brand: req.query.brand } : {};
   const color = req.query.color && req.query.color !== 'all' ? { color: req.query.color } : {};
   const rating = req.query.rating && req.query.rating !== 'all' ? { rating: { $gte: Number(req.query.rating) } } : {};
@@ -33,7 +43,7 @@ const getProducts = asyncHandler(async (req, res) => {
   const inStock = req.query.inStock === 'true' ? { countInStock: { $gt: 0 } } : {};
 
   // Find all filters combined — use $and so the keyword $or doesn't clash with other field filters
-  const otherFilters = { ...category, ...brand, ...color, ...rating, ...price, ...inStock };
+  const otherFilters = { ...categoryFilter, ...brand, ...color, ...rating, ...price, ...inStock };
   const hasKeyword = req.query.keyword && req.query.keyword.trim() !== '';
   const hasOtherFilters = Object.keys(otherFilters).length > 0;
 
