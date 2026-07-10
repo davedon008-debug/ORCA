@@ -43,6 +43,8 @@ function ShopContent() {
     const catParam = searchParams.get('category');
     if (catParam) {
       setCategory(catParam);
+    } else {
+      setCategory('all');
     }
   }, [searchParams]);
 

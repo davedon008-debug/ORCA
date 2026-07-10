@@ -52,9 +52,9 @@ export default function CategoryNavbar() {
   if (parents.length === 0) return null;
 
   return (
-    <div className="bg-white border-b border-gray-100 shadow-xs sticky top-16 z-40 transition-all font-inter">
+    <div className="hidden md:block bg-white border-b border-gray-100 shadow-xs sticky top-16 z-40 transition-all font-inter">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex space-x-6 h-11 items-center overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-1">
+        <div className="flex space-x-6 h-11 items-center overflow-x-auto md:overflow-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] py-1">
           {parents.map((parent) => {
             const subs = getSubcategories(parent.name);
             const hasSubs = subs.length > 0;

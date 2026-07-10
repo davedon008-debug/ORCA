@@ -191,7 +191,7 @@ export default function Home() {
             </Link>
             
             <Link href="/shop?category=Dining Room" className="group relative h-80 rounded-2xl overflow-hidden cursor-pointer shadow-sm">
-              <img src="https://images.unsplash.com/photo-1617806118233-18e1db207f62?w=800&q=80" alt="Dining Room" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <img src="https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=800&q=80" alt="Dining Room" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-6 w-full">
                 <h3 className="text-2xl font-bold text-white mb-1">{t('diningRoom')}</h3>
@@ -290,17 +290,19 @@ export default function Home() {
       {/* Promotional Banner */}
       <section className="py-10 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl overflow-hidden bg-blue-600 flex flex-col md:flex-row items-center">
-            <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80')] opacity-20 mix-blend-overlay bg-cover bg-center" />
-            <div className="relative z-10 p-10 md:p-16 flex-1 text-center md:text-left">
-              <h3 className="text-blue-200 font-bold tracking-wider uppercase text-sm mb-2">Flash Sale</h3>
-              <h2 className="text-4xl md:text-5xl font-black text-white mb-4">Up to 40% Off Premium Furniture</h2>
-              <p className="text-blue-100 mb-8 max-w-lg">Transform your home with our exclusive summer collection. Limited time offer.</p>
-              <Link href="/shop" className="inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all">
-                {t('shopNow')}
-              </Link>
+          <div className="relative rounded-3xl overflow-hidden bg-[#f5f5f5] flex flex-col md:flex-row items-stretch min-h-[400px]">
+            <div className="relative z-10 p-10 md:p-16 flex-1 bg-slate-900 flex flex-col justify-center overflow-hidden">
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80')] opacity-20 mix-blend-overlay bg-cover bg-center" />
+              <div className="relative z-20 flex flex-col items-center md:items-start text-center md:text-left">
+                <h3 className="text-amber-400 font-bold tracking-wider uppercase text-sm mb-2">Flash Sale</h3>
+                <h2 className="text-4xl md:text-5xl font-black text-white mb-4">Up to 40% Off Premium Furniture</h2>
+                <p className="text-slate-300 mb-8 max-w-lg">Transform your home with our exclusive summer collection. Limited time offer.</p>
+                <Link href="/shop" className="inline-block bg-white text-slate-900 px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all">
+                  {t('shopNow')}
+                </Link>
+              </div>
             </div>
-            <div className="relative z-10 hidden md:block flex-1 h-full min-h-[400px]">
+            <div className="relative z-10 hidden md:block flex-1">
                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&q=80" alt="Promo" className="absolute left-0 right-0 bottom-0 w-full h-[120%] object-cover rounded-tl-[100px] shadow-2xl border-l-[10px] border-t-[10px] border-white/10" />
             </div>
           </div>

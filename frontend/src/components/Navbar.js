@@ -8,6 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
 import SearchModal from './SearchModal';
+import MenuDrawer from './MenuDrawer';
 
 export default function Navbar() {
   const { cartItems } = useContext(CartContext);
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isUserOpen, setIsUserOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const cartItemsCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
@@ -35,6 +37,13 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
+            <button 
+              onClick={() => setIsMenuOpen(true)}
+              className="mr-2 md:hidden text-gray-600 hover:text-blue-600 transition-colors focus:outline-none cursor-pointer p-1"
+              title="Menu"
+            >
+              <Menu size={24} />
+            </button>
             <Link href="/" className="flex-shrink-0 flex items-center group">
               <img src="/bigdon_logo.png" alt="BIGDON Logo" className="h-9 w-auto object-contain mr-2.5 transform group-hover:scale-105 transition-transform duration-300 drop-shadow-md" />
               <span className="font-outfit font-black text-xl tracking-tight text-gray-900 group-hover:text-blue-600 transition-colors">BIGDON</span>
@@ -57,15 +66,6 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-5 md:gap-6">
-            {/* Mobile Search Button */}
-            <button 
-              onClick={() => setIsSearchOpen(true)}
-              className="md:hidden text-gray-600 hover:text-blue-600 transition-colors focus:outline-none cursor-pointer p-1"
-              title="Search"
-            >
-              <Search size={22} />
-            </button>
-
             {/* Language Selector Dropdown */}
             <div 
               onClick={() => setIsLangOpen(!isLangOpen)}
@@ -169,8 +169,22 @@ export default function Navbar() {
             
           </div>
         </div>
+        {/* Mobile Search Bar Row */}
+        <div className="pb-3 md:hidden">
+          <form onSubmit={submitHandler} className="w-full relative">
+            <Search size={18} className="absolute left-3.5 top-2.5 text-gray-400" />
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder={t("searchPlaceholder") || "Search sofas, beds, dining tables..."}
+              className="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all border border-transparent focus:bg-white"
+            />
+          </form>
+        </div>
       </div>
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <MenuDrawer isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </nav>
   );
 }

@@ -1,89 +1,182 @@
 import asyncHandler from 'express-async-handler';
+import mongoose from 'mongoose';
 import Product from '../models/Product.js';
 import Order from '../models/Order.js';
 import Category from '../models/Category.js';
+import sampleProductsData from '../data/products.js';
+
+const getProductsFallback = (req) => {
+  let products = sampleProductsData.map((p, index) => ({
+    _id: `mock-product-id-${index + 1}`,
+    ...p,
+    createdAt: new Date(Date.now() - index * 24 * 60 * 60 * 1000).toISOString()
+  }));
+
+  // Filtering by keyword
+  if (req.query.keyword) {
+    const k = req.query.keyword.toLowerCase();
+    products = products.filter(p => 
+      p.name.toLowerCase().includes(k) || 
+      p.brand.toLowerCase().includes(k) || 
+      p.category.toLowerCase().includes(k) || 
+      p.description.toLowerCase().includes(k)
+    );
+  }
+
+  // Filtering by category
+  if (req.query.category && req.query.category !== 'all') {
+    const cat = req.query.category.toLowerCase();
+    products = products.filter(p => p.category.toLowerCase() === cat);
+  }
+
+  // Filtering by brand
+  if (req.query.brand && req.query.brand !== 'all') {
+    const b = req.query.brand.toLowerCase();
+    products = products.filter(p => p.brand.toLowerCase() === b);
+  }
+
+  // Filtering by rating
+  if (req.query.rating && req.query.rating !== 'all') {
+    const r = Number(req.query.rating);
+    products = products.filter(p => p.rating >= r);
+  }
+
+  // Filtering by price
+  if (req.query.minPrice || req.query.maxPrice) {
+    const min = Number(req.query.minPrice) || 0;
+    const max = Number(req.query.maxPrice) || 1000000;
+    products = products.filter(p => p.price >= min && p.price <= max);
+  }
+
+  // Sorting
+  switch (req.query.sort) {
+    case 'lowest': products.sort((a, b) => a.price - b.price); break;
+    case 'highest': products.sort((a, b) => b.price - a.price); break;
+    case 'popular': products.sort((a, b) => b.numReviews - a.numReviews); break;
+    case 'newest':
+    default: products.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); break;
+  }
+
+  const pageSize = Number(req.query.pageSize) || 12;
+  const page = Number(req.query.pageNumber) || 1;
+  const count = products.length;
+  const paginated = products.slice((page - 1) * pageSize, page * pageSize);
+
+  return { products: paginated, page, pages: Math.ceil(count / pageSize), total: count };
+};
 
 // @desc    Fetch all products with filtering, sorting, and pagination
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
-  const pageSize = Number(req.query.pageSize) || 12;
-  const page = Number(req.query.pageNumber) || 1;
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json(getProductsFallback(req));
+    }
+    const pageSize = Number(req.query.pageSize) || 12;
+    const page = Number(req.query.pageNumber) || 1;
 
-  // Search keyword — searches across name, brand, category & description
-  const keyword = req.query.keyword ? {
-    $or: [
-      { name: { $regex: req.query.keyword, $options: 'i' } },
-      { brand: { $regex: req.query.keyword, $options: 'i' } },
-      { category: { $regex: req.query.keyword, $options: 'i' } },
-      { description: { $regex: req.query.keyword, $options: 'i' } },
-    ],
-  } : {};
+    // Search keyword — searches across name, brand, category & description
+    const keyword = req.query.keyword ? {
+      $or: [
+        { name: { $regex: req.query.keyword, $options: 'i' } },
+        { brand: { $regex: req.query.keyword, $options: 'i' } },
+        { category: { $regex: req.query.keyword, $options: 'i' } },
+        { description: { $regex: req.query.keyword, $options: 'i' } },
+      ],
+    } : {};
 
-  // Filtering
-  let categoryFilter = {};
-  if (req.query.category && req.query.category !== 'all') {
-    const subCategories = await Category.find({ parent: req.query.category });
-    if (subCategories.length > 0) {
-      const categoryNames = [req.query.category, ...subCategories.map(c => c.name)];
-      categoryFilter = { category: { $in: categoryNames } };
+    // Filtering
+    let categoryFilter = {};
+    if (req.query.category && req.query.category !== 'all') {
+      const subCategories = await Category.find({ parent: req.query.category });
+      if (subCategories.length > 0) {
+        const categoryNames = [req.query.category, ...subCategories.map(c => c.name)];
+        categoryFilter = { category: { $in: categoryNames } };
+      } else {
+        categoryFilter = { category: req.query.category };
+      }
+    }
+    const brand = req.query.brand && req.query.brand !== 'all' ? { brand: req.query.brand } : {};
+    const color = req.query.color && req.query.color !== 'all' ? { color: req.query.color } : {};
+    const rating = req.query.rating && req.query.rating !== 'all' ? { rating: { $gte: Number(req.query.rating) } } : {};
+    const price = (req.query.minPrice || req.query.maxPrice) ? {
+      price: {
+        $gte: Number(req.query.minPrice) || 0,
+        $lte: Number(req.query.maxPrice) || 1000000,
+      }
+    } : {};
+    const inStock = req.query.inStock === 'true' ? { countInStock: { $gt: 0 } } : {};
+
+    // Find all filters combined — use $and so the keyword $or doesn't clash with other field filters
+    const otherFilters = { ...categoryFilter, ...brand, ...color, ...rating, ...price, ...inStock };
+    const hasKeyword = req.query.keyword && req.query.keyword.trim() !== '';
+    const hasOtherFilters = Object.keys(otherFilters).length > 0;
+
+    let filter = {};
+    if (hasKeyword && hasOtherFilters) {
+      filter = { $and: [keyword, otherFilters] };
+    } else if (hasKeyword) {
+      filter = keyword;
     } else {
-      categoryFilter = { category: req.query.category };
+      filter = otherFilters;
     }
-  }
-  const brand = req.query.brand && req.query.brand !== 'all' ? { brand: req.query.brand } : {};
-  const color = req.query.color && req.query.color !== 'all' ? { color: req.query.color } : {};
-  const rating = req.query.rating && req.query.rating !== 'all' ? { rating: { $gte: Number(req.query.rating) } } : {};
-  const price = (req.query.minPrice || req.query.maxPrice) ? {
-    price: {
-      $gte: Number(req.query.minPrice) || 0,
-      $lte: Number(req.query.maxPrice) || 1000000,
+
+    // Sorting
+    let sortOption = {};
+    switch (req.query.sort) {
+      case 'lowest': sortOption = { price: 1 }; break;
+      case 'highest': sortOption = { price: -1 }; break;
+      case 'popular': sortOption = { numReviews: -1 }; break;
+      case 'newest':
+      default: sortOption = { createdAt: -1 }; break;
     }
-  } : {};
-  const inStock = req.query.inStock === 'true' ? { countInStock: { $gt: 0 } } : {};
 
-  // Find all filters combined — use $and so the keyword $or doesn't clash with other field filters
-  const otherFilters = { ...categoryFilter, ...brand, ...color, ...rating, ...price, ...inStock };
-  const hasKeyword = req.query.keyword && req.query.keyword.trim() !== '';
-  const hasOtherFilters = Object.keys(otherFilters).length > 0;
+    const count = await Product.countDocuments(filter);
+    const products = await Product.find(filter)
+      .sort(sortOption)
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
 
-  let filter = {};
-  if (hasKeyword && hasOtherFilters) {
-    filter = { $and: [keyword, otherFilters] };
-  } else if (hasKeyword) {
-    filter = keyword;
-  } else {
-    filter = otherFilters;
+    res.json({ products, page, pages: Math.ceil(count / pageSize), total: count });
+  } catch (error) {
+    console.error('Database query failed, returning fallback products:', error);
+    res.json(getProductsFallback(req));
   }
-
-  // Sorting
-  let sortOption = {};
-  switch (req.query.sort) {
-    case 'lowest': sortOption = { price: 1 }; break;
-    case 'highest': sortOption = { price: -1 }; break;
-    case 'popular': sortOption = { numReviews: -1 }; break;
-    case 'newest':
-    default: sortOption = { createdAt: -1 }; break;
-  }
-
-  const count = await Product.countDocuments(filter);
-  const products = await Product.find(filter)
-    .sort(sortOption)
-    .limit(pageSize)
-    .skip(pageSize * (page - 1));
-
-  res.json({ products, page, pages: Math.ceil(count / pageSize), total: count });
 });
 
 // @desc    Fetch single product
 // @route   GET /api/products/:id
 // @access  Public
 const getProductById = asyncHandler(async (req, res) => {
-  const product = await Product.findById(req.params.id).populate('reviews.user', 'name');
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      const fallbackProducts = sampleProductsData.map((p, index) => ({
+        _id: `mock-product-id-${index + 1}`,
+        ...p,
+      }));
+      const found = fallbackProducts.find(p => p._id === req.params.id);
+      if (found) {
+        return res.json(found);
+      }
+    }
+    const product = await Product.findById(req.params.id).populate('reviews.user', 'name');
 
-  if (product) {
-    res.json(product);
-  } else {
+    if (product) {
+      res.json(product);
+    } else {
+      res.status(404);
+      throw new Error('Product not found');
+    }
+  } catch (error) {
+    const fallbackProducts = sampleProductsData.map((p, index) => ({
+      _id: `mock-product-id-${index + 1}`,
+      ...p,
+    }));
+    const found = fallbackProducts.find(p => p._id === req.params.id);
+    if (found) {
+      return res.json(found);
+    }
     res.status(404);
     throw new Error('Product not found');
   }
