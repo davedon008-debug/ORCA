@@ -196,7 +196,8 @@ const createProduct = asyncHandler(async (req, res) => {
     countInStock: 0,
     numReviews: 0,
     description: 'Sample description',
-    color: 'Sample color'
+    color: 'Sample color',
+    CB: ''
   });
 
   const createdProduct = await product.save();
@@ -207,7 +208,7 @@ const createProduct = asyncHandler(async (req, res) => {
 // @route   PUT /api/products/:id
 // @access  Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, price, description, images, brand, category, countInStock, color, isFeatured, isNewArrival, specifications } = req.body;
+  const { name, price, description, images, brand, category, countInStock, color, isFeatured, isNewArrival, specifications, CB } = req.body;
 
   const product = await Product.findById(req.params.id);
 
@@ -220,6 +221,7 @@ const updateProduct = asyncHandler(async (req, res) => {
     product.category = category || product.category;
     product.countInStock = countInStock || product.countInStock;
     product.color = color || product.color;
+    product.CB = CB !== undefined ? CB : product.CB;
     product.isFeatured = isFeatured !== undefined ? isFeatured : product.isFeatured;
     product.isNewArrival = isNewArrival !== undefined ? isNewArrival : product.isNewArrival;
     

@@ -34,6 +34,7 @@ export default function AdminDashboard() {
   const [category, setCategory] = useState('Living Room');
   const [countInStock, setCountInStock] = useState(10);
   const [color, setColor] = useState('');
+  const [cb, setCb] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -141,6 +142,7 @@ export default function AdminDashboard() {
       setCategory(apiCategories[0]?.name || 'Living Room');
       setCountInStock(10);
       setColor('Gray');
+      setCb('');
       setDescription('');
       setImage('https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80'); // High-quality pre-filled fallback
       setIsModalOpen(true);
@@ -158,6 +160,7 @@ export default function AdminDashboard() {
     setCategory(product.category);
     setCountInStock(product.countInStock);
     setColor(product.color || '');
+    setCb(product.CB || '');
     setDescription(product.description);
     setImage(product.images?.[0] || 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80');
     setIsModalOpen(true);
@@ -174,6 +177,7 @@ export default function AdminDashboard() {
         category,
         countInStock: Number(countInStock),
         color,
+        CB: cb,
         description,
         images: [image]
       };
@@ -656,6 +660,12 @@ export default function AdminDashboard() {
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Color</label>
                     <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={color} onChange={(e) => setColor(e.target.value)} placeholder="e.g. Gray" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">SKU / Special Code</label>
+                    <input type="text" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" value={cb} onChange={(e) => setCb(e.target.value)} placeholder="e.g. CB:77889" />
                   </div>
                 </div>
                  <div>

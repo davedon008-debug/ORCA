@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "next/navigation";
-import { Star, Truck, ShieldCheck, Heart, ShoppingBag, Minus, Plus, ChevronRight, Send } from "lucide-react";
+import { Star, Truck, ShieldCheck, Heart, ShoppingBag, Minus, Plus, ChevronRight, Send, Copy } from "lucide-react";
 import Link from 'next/link';
 import api, { getBackendUrl } from "../../../utils/axiosInstance";
 import { CartContext } from "../../../context/CartContext";
@@ -17,6 +17,7 @@ export default function ProductDetails() {
   const [activeImage, setActiveImage] = useState(0);
   const [activeTab, setActiveTab] = useState('description');
   const [hasBought, setHasBought] = useState(false);
+  const [copied, setCopied] = useState(false);
   
   const { addToCart } = useContext(CartContext);
   const { user } = useContext(AuthContext);
@@ -95,6 +96,14 @@ export default function ProductDetails() {
   const handleAddToCart = () => {
     if (product) {
       addToCart({ ...product, qty });
+    }
+  };
+
+  const handleCopySku = () => {
+    if (product?.CB) {
+      navigator.clipboard.writeText(product.CB);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
   };
 
@@ -196,6 +205,21 @@ export default function ProductDetails() {
             <div className="text-4xl font-black text-gray-900 mb-6">
               ${product.price?.toFixed(2)}
             </div>
+
+            {product.CB && (
+              <div className="flex items-center gap-2 mb-6 text-sm text-gray-500">
+                <span className="font-semibold uppercase tracking-wider">SKU:</span>
+                <span className="px-2.5 py-1 bg-gray-100 rounded-lg text-gray-800 font-mono font-medium">{product.CB}</span>
+                <button 
+                  onClick={handleCopySku}
+                  className="p-1 text-gray-400 hover:text-blue-600 transition-colors flex items-center gap-1 cursor-pointer"
+                  title="Copy SKU"
+                >
+                  <Copy size={14} />
+                  {copied && <span className="text-[10px] text-green-600 font-bold transition-all animate-fade-in">Copied!</span>}
+                </button>
+              </div>
+            )}
 
             <p className="text-gray-600 mb-8 leading-relaxed text-lg">
               {product.description}
